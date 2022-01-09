@@ -27,17 +27,17 @@ app.get("/", function (req, res) {
 app.post("/", urlencodedParser, async (req, res) => {
   const blogInfo = req.body;
 
+  if(emailvalidator.validate(blogInfo.Email)){
+    
+  }else{
+    return res.status(400).send('Invalid Email');
+  }
   const email = await Blog.findOne({ Email: blogInfo.Email })
 
   if (email !== null) {
     return res.send('email is already exist')
      
   }
-  if(emailvalidator.validate(req.body.email)){
-    // Your call to model here
-}else{
-  return res.status(400).send('Invalid Email');
-}
   const blog = new Blog({
     Name: blogInfo.Name,
     Email: blogInfo.Email,
