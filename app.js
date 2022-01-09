@@ -28,14 +28,14 @@ app.post("/", urlencodedParser, async (req, res) => {
   const blogInfo = req.body;
 
   if(emailvalidator.validate(blogInfo.Email)){
-    
+
   }else{
     return res.status(400).send('Invalid Email');
   }
   const email = await Blog.findOne({ Email: blogInfo.Email })
 
   if (email !== null) {
-    return res.send('email is already exist')
+    return res.send('something went wrong')
      
   }
   const blog = new Blog({
