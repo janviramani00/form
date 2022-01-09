@@ -27,17 +27,28 @@ app.get("/", function (req, res) {
 app.post("/", urlencodedParser, async (req, res) => {
   const blogInfo = req.body;
 
-  if(emailvalidator.validate(blogInfo.Email)){
+  if (emailvalidator.validate(blogInfo.Email)) {
 
-  }else{
+  } else {
     return res.status(400).send('Invalid Email');
   }
   const email = await Blog.findOne({ Email: blogInfo.Email })
 
+  
+
   if (email !== null) {
-    return res.send('something went wrong')
-     
+    return res.send('email is already exist')
+
   }
+  const password = await Blog.findOne({ password: blogInfo.password })
+
+  
+
+  if (password < '6') {
+    return res.send('password length is required min 6 character')
+
+  }
+
   const blog = new Blog({
     Name: blogInfo.Name,
     Email: blogInfo.Email,
